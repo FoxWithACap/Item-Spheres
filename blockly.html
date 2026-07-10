@@ -55,17 +55,12 @@
   "type": "dealDamage",
   "tooltip": "",
   "helpUrl": "",
-  "message0": "deal %1 damage to %2",
+  "message0": "deal %1 damage to target",
   "args0": [
-    {
-      "type": "field_number",
-      "name": "damage",
-      "value": 1
-    },
     {
       "type": "input_value",
       "name": "damage",
-      "check": "target"
+      "check": "Number"
     }
   ],
   "previousStatement": null,
@@ -73,7 +68,36 @@
   "colour": 0
   }]);
   </script>
-                    
+
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
+  "type": "number",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "number",
+      "value": 0
+    },
+  ],
+  "output": null,
+  "colour": 120
+  }]);
+  </script>
+  
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
+  "type": "self",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "self",
+  "args0": [],
+  "output": "target",
+  "colour": 225
+  }]);
+  </script>
 
   <script>
     // Create Blockly workspace
@@ -86,6 +110,9 @@
         <category name="Targets" colour="#3533b0">
           <block type="enemy"></block>
           <block type="dealDamage"></block>
+        </category>
+        <category name="Math" colour = 120>
+          <block type = "number"></block>
         </category>
       </xml>`
     });
