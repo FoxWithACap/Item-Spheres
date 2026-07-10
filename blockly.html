@@ -71,6 +71,30 @@
 
   <script>
     Blockly.defineBlocksWithJsonArray([{
+  "type": "applyKnockback",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "apply %1 %2 knockback to target",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 0
+  }]);
+  </script>
+
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
   "type": "number",
   "tooltip": "",
   "helpUrl": "",
@@ -119,6 +143,18 @@
   </script>
 
   <script>
+    Blockly.defineBlocksWithJsonArray([{
+  "type": "getTarget",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "target",
+  "args0": [],
+  "output": "target",
+  "colour": 225
+  }]);
+  </script>
+
+  <script>
     // Create Blockly workspace
     const container = document.getElementById('blocklyArea');
     const workspace = Blockly.inject(container, {
@@ -128,6 +164,7 @@
         </category>
         <category name="Targets" colour="#3533b0">
           <block type="setTarget"></block>
+          <block type="getTarget"></block>
           <block type="enemy"></block>
           <block type="self"></block>
           <block type="dealDamage"></block>
