@@ -31,10 +31,46 @@
     "type": "onInit",
     "tooltip": "",
     "helpUrl": "",
-    "message0": "when ball is spawned",
+    "message0": "when procedure is called",
     "args0": [],
     "nextStatement": null,
     "colour": 60
+  }]);
+  </script>
+
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
+  "type": "enemy",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "enemy",
+  "args0": [],
+  "output": "target",
+  "colour": 225
+  }]);
+  </script>
+
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
+  "type": "dealDamage",
+  "tooltip": "",
+  "helpUrl": "",
+  "message0": "deal %1 damage to %2",
+  "args0": [
+    {
+      "type": "field_number",
+      "name": "damage",
+      "value": 1
+    },
+    {
+      "type": "input_value",
+      "name": "damage",
+      "check": "target"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 0
   }]);
   </script>
                     
@@ -46,6 +82,10 @@
       toolbox: `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
         <category name="Events" colour="#eaff00">
           <block type="onInit"></block>
+        </category>
+        <category name="Targets" colour="#3533b0">
+          <block type="enemy"></block>
+          <block type="dealDamage"></block>
         </category>
       </xml>`
     });
