@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Blockly single-file XML demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    html,body { height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; }
+    #blocklyArea { height: 75vh; width: 100%; }
+    #controls { padding:10px; display:flex; gap:8px; align-items:center; }
+    textarea { width:100%; height:20vh; box-sizing:border-box; font-family:monospace; }
+    button { padding:6px 10px; cursor:pointer; }
+  </style>
+  <!-- Blockly CDN (prebuilt distribution exposing Blockly API incl. XML) -->
+  <script src="https://unpkg.com/blockly@8.0.0/blockly.min.js"></script>
+</head>
+<body>
+  <div id="controls">
+    <button id="exportBtn">Export</button>
+    <button id="importBtn">Import</button>
+    <button id="clearBtn">Clear</button>
+  </div>
+
+  <div id="blocklyArea"></div>
+
+  <textarea id="xmlOutput" placeholder="Workspace XML appears here when you click Export"></textarea>
+
+
+  <script>
+    Blockly.defineBlocksWithJsonArray([{
+    "type": "onInit",
+    "tooltip": "",
+    "helpUrl": "",
+    "message0": "when ball is spawned",
+    "args0": [],
+    "nextStatement": null,
+    "colour": 60
+  }]);
+  </script>
+                    
+
+  <script>
+    // Create Blockly workspace
+    const container = document.getElementById('blocklyArea');
+    const workspace = Blockly.inject(container, {
+      toolbox: `<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+        <category name="Events" colour="#eaff00">
+          <block type="onInit"></block>
+        </category>
+      </xml>`
+    });
+
+    // Helpers for XML export/import using Blockly's XML API
+    function exportWorkspaceXml(download=false) {
+      const xmlDom = Blockly.Xml.workspaceToDom(workspace);
+      const xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+      document.getElementById('xmlOutput').value = xmlText;
+      if (download) {
+        const blob = new Blob([xmlText], {type: 'application/xml'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'workspace.xml';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    function importWorkspaceXml() {
+      const xmlText = document.getElementById('xmlOutput').value.trim();
+      if (!xmlText) {
+        alert('Paste XML into the textarea first or use the sample XML.');
+        return;
+      }
+      try {
+        const xmlDom = Blockly.Xml.textToDom(xmlText);
+        workspace.clear();
+        Blockly.Xml.domToWorkspace(xmlDom, workspace);
+      } catch (e) {
+        alert('Invalid XML: ' + e);
+      }
+    }
+
+    function clearWorkspace() {
+      workspace.clear();
+      document.getElementById('xmlOutput').value = '';
+    }
+
+    // Buttons
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      exportWorkspaceXml(false);
+    });
+    document.getElementById('importBtn').addEventListener('click', importWorkspaceXml);
+    document.getElementById('clearBtn').addEventListener('click', clearWorkspace);
+
+    // Optional: load a small starter block program on first load
+
+    const starterDom = Blockly.Xml.textToDom(starterXml);
+    Blockly.Xml.domToWorkspace(starterDom, workspace);
+  </script>
+</body>
+</html>
